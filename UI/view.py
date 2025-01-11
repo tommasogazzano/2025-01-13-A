@@ -6,10 +6,10 @@ class View(ft.UserControl):
         super().__init__()
         # page stuff
         self._page = page
-        self._page.title = "TdP 2024 - Esame del 18/07/2024 - A"
+        self._page.title = "TdP 2024 - Esame del 13/01/2025 - A"
         self._page.horizontal_alignment = 'CENTER'
-        self._page.window_width = 1200
-        self._page.window_height = 900
+        self._page.window_width = 800
+        self._page.window_height = 800
         self._page.window_center()
         self._page.theme_mode = ft.ThemeMode.LIGHT
         # controller (it is not initialized. Must be initialized in the main, after the controller is created)
@@ -17,66 +17,54 @@ class View(ft.UserControl):
         # title
         self._title = None
         # first row
-        self.dd_min_ch: ft.Dropdown = None
-        self.dd_max_ch: ft.Dropdown = None
+        self.dd_localization: ft.Dropdown = None
         self.btn_graph: ft.ElevatedButton = None
+        self.btn_analizza_grafo: ft.ElevatedButton = None
         self.btn_path: ft.ElevatedButton = None
         # second row
-        self.txt_result1: ft.ListView = None  # Qui scrivere gli outputs del punto 1
-        self.txt_result2: ft.ListView = None  # Qui scrivere gli outputs del punto 2
+        self.txt_result: ft.ListView = None  # Qui scrivere gli outputs
+
 
     def load_interface(self):
         # title
-        self._title = ft.Text("TdP 2024 - Esame del 18-07-2024 - A", color="blue", size=24)
+        self._title = ft.Text("TdP 2024 - Esame del 13-01-2025 - A", color="blue", size=24)
         self._page.controls.append(self._title)
 
         # First row with some controls
-        self.dd_min_ch = ft.Dropdown(label="Cromosoma min",
-                               hint_text="Selezionare il valore minimo di cromosoma.", width=200)
-
-        self.dd_max_ch = ft.Dropdown(label="Cromosoma max",
-                               hint_text="Selezionare il valore massimo di cromosoma.", width=200)
+        self.dd_localization = ft.Dropdown(label="Localization",
+                               hint_text="Selezionare un tipo di localization.", width=300)
 
         self.btn_graph = ft.ElevatedButton(text="Crea Grafo",
                                            tooltip="Crea il grafo",
                                            on_click=self._controller.handle_graph)
 
+        self.btn_analizza_grafo = ft.ElevatedButton(text="Analizza Grafo",
+                                           tooltip="Analizza il grafo",
+                                           on_click=self._controller.analyze_graph)
+
         self.btn_path = ft.ElevatedButton(text="Cammino",
                                           tooltip="Trova cammino ottimo",
                                           on_click=self._controller.handle_path)
 
-        row1 = ft.Row([self.dd_min_ch, self.dd_max_ch, self.btn_graph, self.btn_path],
+        row1 = ft.Row([self.dd_localization, self.btn_graph, self.btn_analizza_grafo, self.btn_path],
                       alignment=ft.MainAxisAlignment.SPACE_EVENLY)
         self._page.controls.append(row1)
 
         # List View where the reply is printed
-        self.txt_result1 = ft.ListView(width=400, expand=1, spacing=10, padding=20, auto_scroll=False)
-        self.txt_result2 = ft.ListView(width=400, expand=1, spacing=10, padding=20, auto_scroll=False)
-        self.txt_result1.controls.append(ft.Text("Risultati punto1"))
-        self.txt_result2.controls.append(ft.Text("Risultati punto2"))
+        self.txt_result = ft.ListView(width=700, expand=1, spacing=10, padding=20, auto_scroll=False)
+        self.txt_result.controls.append(ft.Text("Risultati"))
 
         container1 = ft.Container(
-            content=self.txt_result1,
+            content=self.txt_result,
             margin=10,
             padding=10,
             alignment=ft.alignment.center,
             bgcolor=ft.colors.GREY_200,
-            width=450,
-            height=700,
+            width=750,
+            height=630,
             border_radius=10,
         )
-        container2 = ft.Container(
-            content=self.txt_result2,
-            margin=10,
-            padding=10,
-            alignment=ft.alignment.center,
-            bgcolor=ft.colors.GREY_200,
-            width=450,
-            height=700,
-            border_radius=10,
-        )
-
-        row2 = ft.Row([container1, container2],
+        row2 = ft.Row([container1],
                       alignment=ft.MainAxisAlignment.SPACE_EVENLY,
                       spacing=50)
         self._page.controls.append(row2)

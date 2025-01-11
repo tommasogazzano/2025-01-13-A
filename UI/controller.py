@@ -14,6 +14,9 @@ class Controller:
     def handle_graph(self, e):
         pass
 
+    def analyze_graph(selfself, e):
+        pass
+
     def handle_path(self, e):
         pass
 
